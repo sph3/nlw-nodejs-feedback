@@ -3,18 +3,18 @@ import express from 'express';
 import { prisma } from './prisma';
 
 const app = express();
-app.use(express.json);
+app.use(express.json());
 
-app.post('/feedbacks', (req, res) => {
+app.post('/feedbacks', async (req, res) => {
   const { comment, screenshot, type } = req.body;
-  prisma.feedback.create({
+  const feedback = await prisma.feedback.create({
     data: {
       comment,
       screenshot,
       type,
     },
   });
-  res.send('Hello, World!');
+  return res.status(201).json({ data: feedback });
 });
 
 const PORT = 3000;
