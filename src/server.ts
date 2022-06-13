@@ -1,8 +1,19 @@
 import express from 'express';
 
-const app = express();
+import { prisma } from './prisma';
 
-app.get('/users', (req, res) => {
+const app = express();
+app.use(express.json);
+
+app.post('/feedbacks', (req, res) => {
+  const { comment, screenshot, type } = req.body;
+  prisma.feedback.create({
+    data: {
+      comment,
+      screenshot,
+      type,
+    },
+  });
   res.send('Hello, World!');
 });
 
